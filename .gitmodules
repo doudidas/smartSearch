@@ -2,5 +2,5 @@
 	path = Smart-Search-Web
 	url = https://github.com/doudidas/Smart-Search-Web
 [submodule "api"]
-        path = SmartSearchEngine
-        url = https://github.com/doudidas/SmartSearchEngine
+        path = smartSearchEngine
+        url = https://github.com/doudidas/smartSearchEngine
