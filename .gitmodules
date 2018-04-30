@@ -1,0 +1,3 @@
+[submodule "web"]
+	path = Smart-Search-Web
+	url = https://github.com/doudidas/Smart-Search-Web
