@@ -5,4 +5,4 @@
 .mongo/db/WiredTiger.wt
 .mongo/db/diagnostic.data/*
 .mongo/db/mongod.lock
-.œmongo/db/sizeStorer.wt
+.mongo/db/sizeStorer.wt
