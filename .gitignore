@@ -1,2 +1,8 @@
 .DS_Store
 .idea/*
+.mongo/db/journal/*
+mongo/db/WiredTiger.turtle
+mongo/db/WiredTiger.wt
+mongo/db/diagnostic.data/*
+mongo/db/mongod.lock
+mongo/db/sizeStorer.wt
