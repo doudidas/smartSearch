@@ -1,6 +1,6 @@
 .DS_Store
 .idea/*
-.mongo/db/journal/*
+.mongo/db/journal/
 .mongo/db/WiredTiger.turtle
 .mongo/db/WiredTiger.wt
 .mongo/db/diagnostic.data/*
