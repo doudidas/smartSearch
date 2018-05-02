@@ -6,28 +6,19 @@ services:
     depends_on:
       - "api"
     ports:
-      - "8080:8080"
+      - "4200:4200"
 
   api:
     image: spacelama/api:latest
     depends_on:
       - "mongo"
+    links:
+      - "mongo:mongo"
     ports:
-      - "5001:80"
-
-
+      - "9000:9000"
 
   mongo:
     image: mongo:latest
     container_name: mongo
-    volumes:
-        - type: volume
-            source : configdb
-            target : ~/Document/mongo/configdb
-        - type: volume
-            source: db
-            target: ~/Document/mongo/db
-
-volumes:
-  - configdb:
-  - db:
+    ports:
+    - "27017:27017"
