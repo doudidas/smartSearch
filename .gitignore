@@ -2,3 +2,4 @@
 .idea/
 mongo/db/*
 mongo/configdb/
+.gitignore
