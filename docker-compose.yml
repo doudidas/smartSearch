@@ -2,15 +2,20 @@ version: '3'
 
 services:
   web:
+    container_name: spacelama-web
+    domainname: local
     image : spacelama/web:latest
     depends_on:
-      - "api"
+      - "spacelama-api"
+    links:
+      - spacelama-api
     ports:
       - "4200:4200"
     networks:
       - front-tier
 
-  api:
+  spacelama-api:
+    container_name: spacelama-api
     image: spacelama/api:latest
     depends_on:
       - "mongo"
@@ -20,10 +25,10 @@ services:
       - front-tier
       - back-tier
     deploy:
-      replicas: 2
+      replicas: 3
 
   mongo:
-    image: mongo:latest
+    image: spacelama/mongo:latest
     container_name: mongo
     ports:
     - "27017:27017"
@@ -36,5 +41,4 @@ services:
 networks:
   front-tier:
   back-tier:
-
 
