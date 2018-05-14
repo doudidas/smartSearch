@@ -28,8 +28,8 @@ services:
       replicas: 3
 
   mongo:
-    image: spacelama/mongo:latest
-    container_name: mongo
+    image: mongo:latest
+    container_name: SmartSearchDatabase
     ports:
     - "27017:27017"
     networks:
