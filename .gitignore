@@ -17,5 +17,3 @@ mongo/configdb/
 *.tar.gz
 *.rar
 *.wt
-mongo/db/*.wt
-mongo/db/collection-11-7557400677131988764.wt
