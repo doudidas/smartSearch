@@ -1,18 +1,12 @@
 .DS_Store
 .idea/
-mongo/db/*
+mongo/db
 mongo/configdb/
 # Compiled class file
 *.class
 
 # Log file
 *.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
 
 # Package Files #
 *.jar
@@ -22,6 +16,6 @@ mongo/configdb/
 *.zip
 *.tar.gz
 *.rar
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+*.wt
+mongo/db/*.wt
+mongo/db/collection-11-7557400677131988764.wt
