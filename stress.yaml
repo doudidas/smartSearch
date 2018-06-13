@@ -1,0 +1,15 @@
+  config:
+    target: "wss://localhost:4200"
+    phases:
+      - duration: 20
+        arrivalRate: 10
+    ws:
+      # Ignore SSL certificate errors
+      # - useful in *development* with self-signed certs
+      rejectUnauthorized: false
+  scenarios:
+    - engine: "ws"
+      flow:
+        - send: "users"
+        - think: 1
+        - send: "topics"
