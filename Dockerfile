@@ -1,5 +1,5 @@
 # Get the container image compatible with maven
-FROM tmaier/docker-compose:latest
+FROM ubuntu:latest
 
 # label
 LABEL author="Edouard Topin"
@@ -9,7 +9,9 @@ WORKDIR /usr/src/
 
 # Copy files on the container to the work directory
 COPY docker-compose.yml /usr/src/docker-compose.yml
+COPY script.sh /usr/src/script.sh
+RUN chmod +x script.sh
 
 EXPOSE 4200
 
-CMD ["docker-compose", "-f", "docker-compose.yml","up","-d", "--build"]
+CMD [ "/usr/src/script.sh" ]
