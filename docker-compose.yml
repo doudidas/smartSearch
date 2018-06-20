@@ -10,7 +10,7 @@ services:
     links:
       - spacelama-api
     ports:
-      - "4200:4200"
+      - "443:4200"
     networks:
       - front-tier
 
