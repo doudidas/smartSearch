@@ -1,5 +1,5 @@
   config:
-    target: "wss://localhost:4200"
+    target: "wss://localhost:443"
     phases:
       - duration: 20
         arrivalRate: 10
