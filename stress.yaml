@@ -1,5 +1,5 @@
   config:
-    target: "wss://localhost:443"
+    target: "https://localhost"
     phases:
       - duration: 20
         arrivalRate: 10
@@ -8,8 +8,6 @@
       # - useful in *development* with self-signed certs
       rejectUnauthorized: false
   scenarios:
-    - engine: "ws"
-      flow:
-        - send: "users"
-        - think: 1
-        - send: "topics"
+  - flow:
+    - get:
+        url: "user"
