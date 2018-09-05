@@ -1,0 +1,12 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: spacelama-api
+  namespace: default
+spec:
+  minReplicas: 1
+  maxReplicas: 10
+  scaleTargetRef:
+    kind: Deployment
+    name: spacelama-api
+  targetCPUUtilizationPercentage: 50
