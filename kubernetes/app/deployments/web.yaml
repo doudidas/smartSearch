@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: web
+  creationTimestamp: null
 spec:
   selector:
     matchLabels:
@@ -15,10 +16,10 @@ spec:
         app: web
     spec:
       containers:
-      - image: spacelama/web:latest
+      - image: spacelama/web:dev
         name: spacelama-web
         ports:
-        - containerPort: 4200
+        - containerPort: 443
         resources: {}
       restartPolicy: Always
 status: {}
