@@ -1,0 +1,15 @@
+# pods/storage/pv-claim.yaml  
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: mongo-db-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data/docker/mongoDB/db"

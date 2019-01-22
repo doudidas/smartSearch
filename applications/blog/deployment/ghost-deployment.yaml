@@ -3,11 +3,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   creationTimestamp: null
-  name: mongo
+  name: ghost
 spec:
   selector:
     matchLabels:
-      app: mongo
+      app: ghost
   replicas: 1
   strategy:
     type: Recreate
@@ -15,26 +15,21 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        app: mongo
+        app: ghost
     spec:
       containers:
-      - image: mongo:latest
+      - image: ghost:latest
         imagePullPolicy: IfNotPresent
-        name: mongo
+        name: ghost
         ports:
-        - containerPort: 27017
+        - containerPort: 2368
         resources: {}
         volumeMounts:
-        - mountPath: /data/configdb
-          name: mongo-claim-config
-        - mountPath: /data/db
-          name: mongo-claim-db
+        - mountPath: /var/lib/ghost/content
+          name: pv-ghost
       restartPolicy: Always
       volumes:
-      - name: mongo-claim-config
+      - name: pv-ghost
         persistentVolumeClaim:
-          claimName: mongo-claim-config
-      - name: mongo-claim-db
-        persistentVolumeClaim:
-          claimName: mongo-claim-db
+          claimName: ghost-claim
 status: {}

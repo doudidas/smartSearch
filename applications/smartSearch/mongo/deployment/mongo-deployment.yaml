@@ -3,11 +3,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   creationTimestamp: null
-  name: smart-search-embedded
+  name: mongo
 spec:
   selector:
     matchLabels:
-      app: web
+      app: mongo
   replicas: 1
   strategy:
     type: Recreate
@@ -15,7 +15,7 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        app: web
+        app: mongo
     spec:
       containers:
       - image: mongo:latest
@@ -26,26 +26,15 @@ spec:
         resources: {}
         volumeMounts:
         - mountPath: /data/configdb
-          name: mongo-claim-config
+          name: mongo-configdb
         - mountPath: /data/db
-          name: mongo-claim-db
-      - image: spacelama/api:latest
-        imagePullPolicy: IfNotPresent
-        name: spacelama-api
-        ports:
-        - containerPort: 9000
-        resources: {}
-      - image: spacelama/web:latest
-        name: spacelama-web
-        ports:
-        - containerPort: 4200
-        resources: {}
+          name: mongo-db
       restartPolicy: Always
       volumes:
-      - name: mongo-claim-config
+      - name: mongo-configdb
         persistentVolumeClaim:
-          claimName: mongo-claim-config
-      - name: mongo-claim-db
+          claimName: mongo-configdb-claim
+      - name: mongo-db
         persistentVolumeClaim:
-          claimName: mongo-claim-db
+          claimName: mongo-db-claim
 status: {}

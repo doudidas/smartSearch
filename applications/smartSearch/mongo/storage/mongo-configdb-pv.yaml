@@ -2,14 +2,14 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: pv-volume-db
+  name: mongo-configdb-pv
   labels:
     type: local
 spec:
   storageClassName: manual
   capacity:
-    storage: 1Gi
+    storage: 10Mi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/data/db"
+    path: "/data/docker/mongoDB/configdb"
