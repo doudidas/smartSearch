@@ -26,15 +26,15 @@ spec:
         resources: {}
         volumeMounts:
         - mountPath: /data/configdb
-          name: mongo-claim-config
+          name: mongo-configdb
         - mountPath: /data/db
-          name: mongo-claim-db
+          name: mongo-db
       restartPolicy: Always
       volumes:
-      - name: mongo-claim-config
+      - name: mongo-configdb
         persistentVolumeClaim:
-          claimName: mongo-claim-config
-      - name: mongo-claim-db
+          claimName: mongo-configdb-claim
+      - name: mongo-db
         persistentVolumeClaim:
-          claimName: mongo-claim-db
+          claimName: mongo-db-claim
 status: {}

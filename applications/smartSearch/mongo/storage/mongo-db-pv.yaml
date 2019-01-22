@@ -2,7 +2,7 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: pv-volume-db
+  name: mongo-db-pv
   labels:
     type: local
 spec:
