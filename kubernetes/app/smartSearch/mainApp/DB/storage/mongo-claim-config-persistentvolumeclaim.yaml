@@ -1,14 +1,14 @@
-# mongo db claim
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   creationTimestamp: null
-  name: mongo-claim-db
+  name: mongo-claim-config
 spec:
   accessModes:
   - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
-  storageClassName: db
+      storage: 1Mi
+  storageClassName: manual
 status: {}
+

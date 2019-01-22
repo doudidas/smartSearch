@@ -18,3 +18,5 @@ mongo/configdb/
 *.rar
 *.wt
 ssl
+userToken.yaml
+setupAccount.yaml
