@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: spacelama-api
+  name: spacelama-api
+spec:
+  selector:
+    app: spacelama-api
+  ports:
+  - name: "9000"
+    protocol: TCP
+    port: 9000
+    targetPort: 9000
+  type: ClusterIP
+status:
+  loadBalancer: {}

@@ -2,9 +2,7 @@
 
 3-tiers app for POC
 
-Folder Architecture : 
-
-
+Folder Architecture :
 
     | applications
         | app 1
@@ -19,9 +17,6 @@ Folder Architecture :
             | module 2
         | app 2
 
+If you want to deploy on kubernetes an app you just need to do
 
-If you want to deploy on kubernetes an app you just need to do 
-
-```kubectl create - f /path to yaml file or folder```
-
- > Example: kubectl create -f applications/smartSearch/DB/deployment/
+```kubectl create - f /applications/files

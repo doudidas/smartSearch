@@ -1,0 +1,19 @@
+# Service for mongo app 
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mongo
+  creationTimestamp: null
+  name: mongo
+spec:
+  selector:
+    app: mongo
+  ports:
+  - protocol: TCP
+    name: mongo
+    port: 27017
+    targetPort: 27017
+  type: ClusterIP
+status:
+  loadBalancer: {}
