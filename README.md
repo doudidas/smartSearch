@@ -19,4 +19,4 @@ Folder Architecture :
 
 If you want to deploy on kubernetes an app you just need to do
 
-```kubectl create - f /applications/files
+```
