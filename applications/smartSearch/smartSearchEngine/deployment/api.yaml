@@ -1,3 +1,4 @@
+# Deployment of the backend app 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,7 +16,7 @@ spec:
         app: spacelama-api
     spec:
       containers:
-      - image: spacelama/api:latest
+      - image: spacelama/api-go:latest
         imagePullPolicy: IfNotPresent
         name: spacelama-api
         ports:
