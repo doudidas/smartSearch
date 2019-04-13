@@ -1,0 +1,19 @@
+# Deployment of the backend app 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spacelama-api
+  labels:
+    stage: production
+spec:
+  selector:
+    matchLabels:
+      stage: production
+  template:
+    metadata:
+      labels:
+        stage: production
+    spec:
+      containers:
+      - image: spacelama/api-go:latest
+        name: spacelama-api

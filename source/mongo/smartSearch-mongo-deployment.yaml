@@ -1,0 +1,41 @@
+# Deployment of the mongo app 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo
+  labels:
+      app: SmartSearch
+      tier: database
+spec:
+  selector:
+    matchLabels:
+      app: SmartSearch
+      tier: database
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mongo
+        tier: database
+    spec:
+      containers:
+      - image: mongo:latest
+        imagePullPolicy: IfNotPresent
+        name: mongo
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - mountPath: /data/configdb
+          name: mongo-configdb
+        - mountPath: /data/db
+          name: mongo-db
+      restartPolicy: Always
+      volumes:
+      - name: mongo-configdb
+        persistentVolumeClaim:
+          claimName: mongo-configdb-claim
+      - name: mongo-db
+        persistentVolumeClaim:
+          claimName: mongo-db-claim

@@ -1,0 +1,9 @@
+namePrefix: dev-
+commonLabels: 
+  stage: dev
+bases: 
+- ../../source
+patches:
+    - smartSearch-mongo-deployment.yaml
+    - smartSearch-api-deployment.yaml
+    - smartSearch-web-deployment.yaml

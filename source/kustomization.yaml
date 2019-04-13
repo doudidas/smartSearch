@@ -1,0 +1,13 @@
+   commonLabels:
+     app: smartSearch
+   resources:
+   - api/smartSearch-api-deployment.yaml
+   - api/smartSearch-api-service.yaml
+   - mongo/smartSearch-mongo-configdb-claim.yaml
+   - mongo/smartSearch-mongo-configdb-pv.yaml
+   - mongo/smartSearch-mongo-db-claim.yaml
+   - mongo/smartSearch-mongo-db-pv.yaml
+   - mongo/smartSearch-mongo-deployment.yaml
+   - mongo/smartSearch-mongo-service.yaml
+   - web/smartSearch-web-deployment.yaml
+   - web/smartSearch-web-service.yaml
