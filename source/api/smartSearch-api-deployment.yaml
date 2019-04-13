@@ -1,0 +1,26 @@
+# Deployment of the backend app 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spacelama-api
+  labels:
+    app: SmartSearch
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: SmartSearch
+      tier: backend
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: SmartSearch
+        tier: backend
+    spec:
+      containers:
+      - image: spacelama/api-go:latest
+        imagePullPolicy: IfNotPresent
+        name: spacelama-api
+        ports:
+        - containerPort: 9000

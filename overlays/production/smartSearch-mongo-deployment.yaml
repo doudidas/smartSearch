@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo
+  labels:
+    stage: production
+spec:
+  selector:
+    matchLabels:
+      stage: production
+  template:
+    metadata:
+      labels:
+        stage: production
