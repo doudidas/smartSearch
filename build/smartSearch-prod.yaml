@@ -3,6 +3,7 @@ kind: Service
 metadata:
   labels:
     app: smartSearch
+    namespace: production
     port: "27017"
     stage: production
   name: prod-mongo
@@ -14,6 +15,7 @@ spec:
     targetPort: 27017
   selector:
     app: smartSearch
+    namespace: production
     stage: production
     tier: backend
   type: ClusterIP
@@ -23,6 +25,7 @@ kind: Service
 metadata:
   labels:
     app: smartSearch
+    namespace: production
     port: "9000"
     stage: production
   name: prod-spacelama-api
@@ -34,6 +37,7 @@ spec:
     targetPort: 9000
   selector:
     app: smartSearch
+    namespace: production
     stage: production
     tier: backend
   type: ClusterIP
@@ -43,6 +47,7 @@ kind: Service
 metadata:
   labels:
     app: smartSearch
+    namespace: production
     port: "443"
     stage: production
   name: prod-web
@@ -57,6 +62,7 @@ spec:
     targetPort: 80
   selector:
     app: smartSearch
+    namespace: production
     stage: production
     tier: frontend
   type: LoadBalancer
@@ -66,6 +72,7 @@ kind: Deployment
 metadata:
   labels:
     app: smartSearch
+    namespace: production
     stage: production
     tier: database
   name: prod-mongo
@@ -74,6 +81,7 @@ spec:
   selector:
     matchLabels:
       app: smartSearch
+      namespace: production
       stage: production
       tier: database
   strategy:
@@ -82,6 +90,7 @@ spec:
     metadata:
       labels:
         app: smartSearch
+        namespace: production
         stage: production
         tier: database
     spec:
@@ -110,6 +119,7 @@ kind: Deployment
 metadata:
   labels:
     app: smartSearch
+    namespace: production
     stage: production
     tier: backend
   name: prod-spacelama-api
@@ -118,12 +128,14 @@ spec:
   selector:
     matchLabels:
       app: smartSearch
+      namespace: production
       stage: production
       tier: backend
   template:
     metadata:
       labels:
         app: smartSearch
+        namespace: production
         stage: production
         tier: backend
     spec:
@@ -139,6 +151,7 @@ kind: Deployment
 metadata:
   labels:
     app: smartSearch
+    namespace: production
     stage: production
     tier: frontend
   name: prod-web
@@ -147,12 +160,14 @@ spec:
   selector:
     matchLabels:
       app: smartSearch
+      namespace: production
       stage: production
       tier: frontend
   template:
     metadata:
       labels:
         app: smartSearch
+        namespace: production
         stage: production
         tier: frontend
     spec:
@@ -171,6 +186,7 @@ kind: PersistentVolume
 metadata:
   labels:
     app: smartSearch
+    namespace: production
     stage: production
     type: local
   name: prod-mongo-configdb-pv
@@ -188,6 +204,7 @@ kind: PersistentVolume
 metadata:
   labels:
     app: smartSearch
+    namespace: production
     stage: production
     type: local
   name: prod-mongo-db-pv
@@ -205,6 +222,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app: smartSearch
+    namespace: production
     stage: production
     type: Database
   name: prod-mongo-configdb-claim
@@ -222,6 +240,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app: smartSearch
+    namespace: production
     stage: production
     type: Database
   name: prod-mongo-db-claim

@@ -1,5 +1,6 @@
 namePrefix: prod-
 commonLabels: 
+  namespace: production
   stage: production
 bases: 
 - ../../source
