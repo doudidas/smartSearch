@@ -3,6 +3,7 @@ kind: Service
 metadata:
   labels:
     app: smartSearch
+    namespace: dev
     port: "27017"
     stage: dev
   name: dev-mongo
@@ -14,6 +15,7 @@ spec:
     targetPort: 27017
   selector:
     app: smartSearch
+    namespace: dev
     stage: dev
     tier: backend
   type: ClusterIP
@@ -23,6 +25,7 @@ kind: Service
 metadata:
   labels:
     app: smartSearch
+    namespace: dev
     port: "9000"
     stage: dev
   name: dev-spacelama-api
@@ -34,6 +37,7 @@ spec:
     targetPort: 9000
   selector:
     app: smartSearch
+    namespace: dev
     stage: dev
     tier: backend
   type: ClusterIP
@@ -43,6 +47,7 @@ kind: Service
 metadata:
   labels:
     app: smartSearch
+    namespace: dev
     port: "443"
     stage: dev
   name: dev-web
@@ -57,6 +62,7 @@ spec:
     targetPort: 80
   selector:
     app: smartSearch
+    namespace: dev
     stage: dev
     tier: frontend
   type: LoadBalancer
@@ -66,6 +72,7 @@ kind: Deployment
 metadata:
   labels:
     app: smartSearch
+    namespace: dev
     stage: dev
     tier: database
   name: dev-mongo
@@ -74,6 +81,7 @@ spec:
   selector:
     matchLabels:
       app: smartSearch
+      namespace: dev
       stage: dev
       tier: database
   strategy:
@@ -82,6 +90,7 @@ spec:
     metadata:
       labels:
         app: smartSearch
+        namespace: dev
         stage: dev
         tier: database
     spec:
@@ -110,6 +119,7 @@ kind: Deployment
 metadata:
   labels:
     app: smartSearch
+    namespace: dev
     stage: dev
     tier: backend
   name: dev-spacelama-api
@@ -118,12 +128,14 @@ spec:
   selector:
     matchLabels:
       app: smartSearch
+      namespace: dev
       stage: dev
       tier: backend
   template:
     metadata:
       labels:
         app: smartSearch
+        namespace: dev
         stage: dev
         tier: backend
     spec:
@@ -139,6 +151,7 @@ kind: Deployment
 metadata:
   labels:
     app: smartSearch
+    namespace: dev
     stage: dev
     tier: frontend
   name: dev-web
@@ -147,12 +160,14 @@ spec:
   selector:
     matchLabels:
       app: smartSearch
+      namespace: dev
       stage: dev
       tier: frontend
   template:
     metadata:
       labels:
         app: smartSearch
+        namespace: dev
         stage: dev
         tier: frontend
     spec:
@@ -171,6 +186,7 @@ kind: PersistentVolume
 metadata:
   labels:
     app: smartSearch
+    namespace: dev
     stage: dev
     type: local
   name: dev-mongo-configdb-pv
@@ -188,6 +204,7 @@ kind: PersistentVolume
 metadata:
   labels:
     app: smartSearch
+    namespace: dev
     stage: dev
     type: local
   name: dev-mongo-db-pv
@@ -205,6 +222,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app: smartSearch
+    namespace: dev
     stage: dev
     type: Database
   name: dev-mongo-configdb-claim
@@ -222,6 +240,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app: smartSearch
+    namespace: dev
     stage: dev
     type: Database
   name: dev-mongo-db-claim

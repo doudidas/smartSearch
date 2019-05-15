@@ -1,5 +1,6 @@
 namePrefix: dev-
 commonLabels: 
+  namespace: dev
   stage: dev
 bases: 
 - ../../source
