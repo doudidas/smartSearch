@@ -172,7 +172,7 @@ spec:
         tier: frontend
     spec:
       containers:
-        - image: spacelama/web:latest
+        - image: spacelama/web:dev
           imagePullPolicy: Always
           name: smartsearch-web
       restartPolicy: Always
