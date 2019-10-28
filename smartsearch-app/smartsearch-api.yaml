@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: spacelama
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: spacelama
+  name: smartsearch-api
+  labels:
+    app: smartSearch
+    stage: production
+    tier: backend
+spec:
+  ports:
+    - name: gin-gonic
+      port: 9000
+      protocol: TCP
+      targetPort: 9000
+  selector:
+    app: smartSearch
+    stage: production
+    tier: backend
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: spacelama
+  labels:
+    app: smartSearch
+    stage: production
+    tier: backend
+  name: spacelama-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smartSearch
+      stage: production
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: smartSearch
+        stage: production
+        tier: backend
+    spec:
+      containers:
+        - image: spacelama/api-go:latest
+          imagePullPolicy: Always
+          name: smarsearch-api

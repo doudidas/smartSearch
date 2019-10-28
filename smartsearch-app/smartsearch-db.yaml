@@ -81,14 +81,14 @@ metadata:
   labels:
     app: smartSearch
     stage: production
-    tier: backend
+    tier: database
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: smartSearch
       stage: production
-      tier: backend
+      tier: database
   strategy:
     type: Recreate
   template:
@@ -96,7 +96,7 @@ spec:
       labels:
         app: smartSearch
         stage: production
-        tier: backend
+        tier: database
     spec:
       containers:
         - image: mongo:latest
@@ -118,86 +118,6 @@ spec:
           persistentVolumeClaim:
             claimName: mongo-db
 ---
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  namespace: spacelama
-  labels:
-    app: smartSearch
-    stage: production
-    tier: backend
-    tier: frontend
-  name: spacelama-api
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: smartSearch
-      stage: production
-      tier: backend
-  template:
-    metadata:
-      labels:
-        app: smartSearch
-        stage: production
-        tier: backend
-
-    spec:
-      containers:
-        - image: spacelama/api-go:dev
-          imagePullPolicy: Always
-          name: smarsearch-api
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  namespace: spacelama
-  labels:
-    app: smartSearch
-    stage: production
-    tier: frontend
-  name: smartsearch-web
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: smartSearch
-      stage: production
-      tier: frontend
-  template:
-    metadata:
-      labels:
-        app: smartSearch
-        stage: production
-        tier: frontend
-    spec:
-      containers:
-        - image: spacelama/web:dev
-          imagePullPolicy: Always
-          name: smartsearch-web
-      restartPolicy: Always
-status: {}
----
-apiVersion: v1
-kind: Service
-metadata:
-  namespace: spacelama
-  name: smartsearch-web
-  labels:
-    app: smartSearch
-    stage: production
-spec:
-  ports:
-    - name: https
-      port: 443
-      targetPort: 443
-  selector:
-    app: smartSearch
-    stage: production
-    tier: frontend
-  type: LoadBalancer
-  externalTrafficPolicy: Cluster
----
 apiVersion: v1
 kind: Service
 metadata:
@@ -206,6 +126,7 @@ metadata:
   labels:
     app: smartSearch
     stage: production
+    tier: database
 spec:
   ports:
     - name: mongo
@@ -215,28 +136,5 @@ spec:
   selector:
     app: smartSearch
     stage: production
-    tier: backend
+    tier: database
   type: ClusterIP
----
-apiVersion: v1
-kind: Service
-metadata:
-  namespace: spacelama
-  name: smartsearch-api
-  labels:
-    app: smartSearch
-    stage: production
-    tier: backend
-    tier: frontend
-spec:
-  ports:
-    - name: gin-gonic
-      port: 9000
-      protocol: TCP
-      targetPort: 9000
-  selector:
-    app: smartSearch
-    stage: production
-    tier: backend
-  type: ClusterIP
----
