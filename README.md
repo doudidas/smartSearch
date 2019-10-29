@@ -4,9 +4,10 @@
 
 ![overview](overview.png)
 
-## Requirement
 
-### CNI / Networking
+## Requirement
+
+### CNI / Networking
 
 This application needs to have contour as a CNI. You can deploy yourself contour or use my preconfigured file with:
 
@@ -16,7 +17,7 @@ Then you just need to deploy the global ingress to expose the app. 
 
 `kubectl apply  -f ingress.yaml`
 
-### Storage (not mandatory)
+### Storage (not mandatory)
 
 This application contains a mongo database. You can deploy it with persistent volumes bind to a specific volume.
 For this you will need to generate persistent volumes and bind it to the DB deployment with volume claims.
@@ -53,15 +54,16 @@ Then apply it on your cluster before deploying the app: `kubectl apply
 
 ```console ➜  smartSearch git:(master) kubectl get persistentvolume --namespace smartsearch    
 NAME       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE
-mongo-db   1Gi        RWX            Retain           Available           fast                    20s ```
+mongo-db   1Gi        RWX            Retain           Available           fast                    20s 
+```
 
 You now have a persistent volume ready to be claimed by the mongoDB pod
 
-## Deployment
+## Deployment
 
 `kubectl apply -f smartsearch-app/`
 
-## Help and debug
+## Help and debug
 
 If you need visibility of what you have set up, you can use octant to have a better overview of all resources.
 
