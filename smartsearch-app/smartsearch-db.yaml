@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: spacelama
+  name: smartsearch
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  namespace: spacelama
+  namespace: smartsearch
   labels:
     app: smartSearch
     stage: production
@@ -24,7 +24,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  namespace: spacelama
+  namespace: smartsearch
   labels:
     app: smartSearch
     stage: production
@@ -36,13 +36,13 @@ spec:
   capacity:
     storage: 1Gi
   hostPath:
-    path: /Users/etopin/data/docker/mongoDB/db
+    path: /Users/etopin/data/docker/mongoDB/db 
   storageClassName: manual
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  namespace: spacelama
+  namespace: smartsearch
   name: mongo-config
   labels:
     app: smartSearch
@@ -59,7 +59,7 @@ status: {}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  namespace: spacelama
+  namespace: smartsearch
   name: mongo-db
   labels:
     app: smartSearch
@@ -77,7 +77,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: smartsearch-db
-  namespace: spacelama
+  namespace: smartsearch
   labels:
     app: smartSearch
     stage: production
@@ -104,24 +104,24 @@ spec:
           name: smartsearch-db
           ports:
             - containerPort: 27017
-          volumeMounts:
-            - mountPath: /data/configdb
-              name: configdb
-            - mountPath: /data/db
-              name: db
+          # volumeMounts:
+          #   - mountPath: /data/configdb
+          #     name: configdb
+          #   - mountPath: /data/db
+          #     name: db
       restartPolicy: Always
-      volumes:
-        - name: configdb
-          persistentVolumeClaim:
-            claimName: mongo-config
-        - name: db
-          persistentVolumeClaim:
-            claimName: mongo-db
+      # volumes:
+      #   - name: configdb
+      #     persistentVolumeClaim:
+      #       claimName: mongo-config
+      #   - name: db
+      #     persistentVolumeClaim:
+      #       claimName: mongo-db
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: spacelama
+  namespace: smartsearch
   name: smartsearch-db
   labels:
     app: smartSearch

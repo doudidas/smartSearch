@@ -1,18 +1,18 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: spacelama
+  name: smartsearch
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  namespace: spacelama
-  name: localhost
+  namespace: smartsearch
+  name: global-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/tls-acme: "true" # If you use let's encrypt to get certificate
 spec:
   rules:
-  - host: localhost
+  - host: localhost # Change with your own hostname
     http:
       paths:
       - path: /
