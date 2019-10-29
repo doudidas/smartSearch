@@ -8,10 +8,21 @@ kind: Ingress
 metadata:
   namespace: smartsearch
   name: global-ingress
-  annotations:
-    kubernetes.io/tls-acme: "true" # If you use let's encrypt to get certificate
+  labels:
+    app: smartSearch
 spec:
   rules:
+  - host: dev.localhost # Change with your own hostname
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: dev-smartsearch-web
+          servicePort: 80
+      - path: /api
+        backend:
+          serviceName: dev-smartsearch-api
+          servicePort: 9000
   - host: localhost # Change with your own hostname
     http:
       paths:

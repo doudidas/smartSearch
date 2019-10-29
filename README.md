@@ -1,42 +1,32 @@
-# smartSearch
+# SmartSearch
 
-3-tiers app for POC for Kubernetes
+3-tier app for POC for Kubernetes
 
-## Requierement
+## Requirement
 
-### CNI
+### CNI / Networking
 
-This application need to have contour as a CNI. You can deploy yourself contour or use my preconfigured file with:
+This application needs to have contour as a CNI. You can deploy yourself contour or use my preconfigured file with:
 
-`kubectl apply  -f plugins/`
+`kubectl apply  -f plugins/`
 
-### Storage (not mendatory)
+Then you just need to deploy the global ingress to expose the app. By default the hostname is localhost but feel free to change.
 
-This application contain a mongo Database. You can decide to have a full stateless application or bind the database storage path with a predifined persistent volume.
+`kubectl apply  -f ingress.yaml`
 
-If you are looking for a specific path you can generate this file with your own path.
+### Storage (not mandatory)
 
-⚠️ **Be sure that the folders already exist on your hosts** ⚠️
+This application contains a mongo database. You can deploy it with persistent volumes bind to a specific volume.
+For this you will need to generate persistent volumes and bind it to the DB deployment with volume claims.
 
-``` yaml
+⚠️ **Be sure that the folders already exist on your hosts** ⚠️
+
+``` yaml
 # persistent-volumes.yaml
 apiVersion: v1
-kind: PersistentVolume
+kind: Namespace
 metadata:
-  namespace: smartsearch
-  labels:
-    app: smartSearch
-    stage: production
-    folder: config
-  name: mongo-prod-config
-spec:
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 10Mi
-  hostPath:
-    path: yourCustomPath # Ex: /data/kubernetes/smartsearch/mongo/config
-  storageClassName: manual
+  name: smartsearch
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -46,29 +36,33 @@ metadata:
     app: smartSearch
     stage: production
     folder: db
-  name: mongo-prod-db
+  name: mongo-db
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   capacity:
     storage: 1Gi
   hostPath:
-    path: yourCustomPath # Ex: /data/kubernetes/smartsearch/mongo/db
-  storageClassName: manual
----
+    path: yourOwnPath # Ex: /data/kubernetes/smartsearch/mongo/db
+  storageClassName: fast
 ```
 
-Then apply it on your cluster before deploying the app:
-`kubectl apply -f persistent-volumes.yaml`
+Then apply it on your cluster before deploying the app: `kubectl apply -f persistent-volumes.yaml`
 
-## Deployment
+```console ➜  smartSearch git:(master) kubectl get persistentvolume --namespace smartsearch    
+NAME       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE
+mongo-db   1Gi        RWX            Retain           Available           fast                    20s ```
 
-`kubectl apply -f smartsearch-app/`
+You now have a persistent volume ready to be claimed by the mongoDB pod
 
-## Help and debug
+## Deployment
 
-If you need visibility of what you have setup you can use octant to have a better overview of all ressources.
+`kubectl apply -f smartsearch-app/`
+
+## Help and debug
+
+If you need visibility of what you have set up, you can use octant to have a better overview of all resources.
 
 [![logo](https://github.com/vmware-tanzu/octant/blob/master/site/docs/master/octant-logo.png?raw=true)](https://github.com/vmware-tanzu/octant)
 
-[Github Repository](https://github.com/vmware-tanzu/octant)
+[Github Repository](https://github.com/vmware-tanzu/octant)
