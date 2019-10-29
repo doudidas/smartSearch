@@ -2,7 +2,7 @@
 
 3-tier app for POC for Kubernetes
 
-![logo](overview.svg)
+![overview](overview.png)
 
 ## Requirement
 
