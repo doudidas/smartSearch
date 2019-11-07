@@ -5,7 +5,7 @@
 ![overview](overview.png)
 
 - Web Repository : [lien](https://github.com/doudidas/smartSearchweb)
-- API Repository : [lien](https://github.com/doudidas/smartSearchweb)
+- API Repository : [lien](https://github.com/doudidas/smartSearch-GO)
 
 ## Requirement
 
