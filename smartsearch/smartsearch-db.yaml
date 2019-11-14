@@ -3,24 +3,6 @@ kind: Namespace
 metadata:
   name: smartsearch
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  namespace: smartsearch
-  name: mongo-db
-  labels:
-    app: smartSearch
-    stage: production
-    folder: db
-spec:
-  storageClassName: fast
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Gi
-status: {}
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -59,7 +41,7 @@ spec:
       volumes:
         - name: db
           persistentVolumeClaim:
-            claimName: mongo-db
+            claimName: mongo-db-prod
 ---
 apiVersion: v1
 kind: Service
@@ -81,3 +63,21 @@ spec:
     stage: production
     tier: database
   type: ClusterIP
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-db-prod
+  namespace: smartsearch
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      app: smartSearch
+      stage: production
+      tier: database
