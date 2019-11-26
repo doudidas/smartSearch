@@ -3,46 +3,6 @@ kind: Namespace
 metadata:
   name: smartsearch
 ---
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: smartsearch-db
-  namespace: smartsearch
-  labels:
-    app: smartSearch
-    stage: production
-    tier: database
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: smartSearch
-      stage: production
-      tier: database
-  strategy:
-    type: Recreate
-  template:
-    metadata:
-      labels:
-        app: smartSearch
-        stage: production
-        tier: database
-    spec:
-      containers:
-        - image: mongo:latest
-          imagePullPolicy: Always
-          name: smartsearch-db
-          ports:
-            - containerPort: 27017
-          volumeMounts:
-            - mountPath: /data/db
-              name: db
-      restartPolicy: Always
-      volumes:
-        - name: db
-          persistentVolumeClaim:
-            claimName: mongo-db-prod
----
 apiVersion: v1
 kind: Service
 metadata:
@@ -64,20 +24,53 @@ spec:
     tier: database
   type: ClusterIP
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
+apiVersion: apps/v1beta1
+kind: StatefulSet
 metadata:
-  name: mongo-db-prod
+  name: smartsearch-db
   namespace: smartsearch
+  labels:
+    app: smartSearch
+    stage: production
+    tier: database
 spec:
-  accessModes:
-    - ReadWriteOnce
-  volumeMode: Filesystem
-  resources:
-    requests:
-      storage: 1Gi
-  selector:
-    matchLabels:
-      app: smartSearch
-      stage: production
-      tier: database
+  serviceName: smartsearch-db
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: smartSearch
+        stage: production
+        tier: database
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: mongo
+          image: mongo:3.4
+          command:
+            - mongod
+            - "--replSet"
+            - rs0
+            - "--bind_ip"
+            - 0.0.0.0
+            - "--smallfiles"
+            - "--noprealloc"
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: mongo-persistent-storage
+              mountPath: /data/db
+        - name: mongo-sidecar
+          image: cvallance/mongo-k8s-sidecar
+          env:
+            - name: MONGO_SIDECAR_POD_LABELS
+              value: "app=smartSearch,stage=production,tier=database"
+  volumeClaimTemplates:
+  - metadata:
+      name: mongo-persistent-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      volumeMode: Filesystem
+      resources:
+        requests:
+          storage: 1Gi
