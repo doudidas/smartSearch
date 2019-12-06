@@ -53,6 +53,6 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: spacelama/api-go:latest
+        - image: gcr.io/spacelama/github.com/doudidas/smartsearch-go:latest
           imagePullPolicy: Always
           name: smarsearch-api
