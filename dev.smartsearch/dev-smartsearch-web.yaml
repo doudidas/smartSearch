@@ -32,7 +32,7 @@ spec:
         tier: frontend
     spec:
       containers:
-        - image: gcr.io/spacelama/github.com/doudidas/smartsearchweb:dev
+        - image: spacelama/web:dev
           imagePullPolicy: Always
           name: smartsearch-web
       restartPolicy: Always
