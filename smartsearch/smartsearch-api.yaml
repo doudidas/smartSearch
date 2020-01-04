@@ -22,7 +22,8 @@ spec:
     app: smartSearch
     stage: production
     tier: backend
-  type: ClusterIP
+  type: NodePort
+  sessionAffinity: None
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -34,7 +35,7 @@ metadata:
     tier: backend
   name: smartsearch-api
 spec:
-  replicas: 3
+  replicas: 5
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -55,4 +56,19 @@ spec:
       containers:
         - image: spacelama/api-go:latest
           imagePullPolicy: Always
-          name: smarsearch-api
+          name: smartsearch-api
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: 9000
+            initialDelaySeconds: 90
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: 9000
+            initialDelaySeconds: 30
+            timeoutSeconds: 10
+          env:
+            - name:  MONGO_HOSTNAME
+              value: smartsearch-db.smartsearch.svc.cluster.local

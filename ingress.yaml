@@ -12,8 +12,7 @@ metadata:
     app: smartSearch
 spec:
   rules:
-  - host: dev.localhost # Change with your own hostname
-    http:
+  - http:
       paths:
       - path: /
         backend:
@@ -23,8 +22,8 @@ spec:
         backend:
           serviceName: dev-smartsearch-api
           servicePort: 9000
-  - host: localhost # Change with your own hostname
-    http:
+    host: dev.localhost # Change with your own hostname
+  - http:
       paths:
       - path: /
         backend:
@@ -34,3 +33,4 @@ spec:
         backend:
           serviceName: smartsearch-api
           servicePort: 9000
+    host: localhost # Change with your own hostname

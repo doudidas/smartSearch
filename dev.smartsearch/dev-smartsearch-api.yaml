@@ -58,4 +58,4 @@ spec:
           name: smarsearch-api
           env:
             - name:  MONGO_HOSTNAME
-              value: dev-smartsearch-db
+              value: dev-smartsearch-db.smartsearch.svc.cluster.local

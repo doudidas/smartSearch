@@ -35,6 +35,18 @@ spec:
         - image: spacelama/web:latest
           imagePullPolicy: Always
           name: smartsearch-web
+          livenessProbe:
+            httpGet:
+              path: /app
+              port: 80
+            initialDelaySeconds: 90
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /app
+              port: 80
+            initialDelaySeconds: 30
+            timeoutSeconds: 10
       restartPolicy: Always
 status: {}
 ---
@@ -56,4 +68,5 @@ spec:
     app: smartSearch
     stage: production
     tier: frontend
-  type: ClusterIP
+  type: NodePort
+  sessionAffinity: ClientIP
