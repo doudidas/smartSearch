@@ -23,7 +23,6 @@ spec:
     stage: production
     tier: backend
   type: NodePort
-  sessionAffinity: None
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -54,21 +53,9 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: spacelama/api-go:latest
+        - image: gcr.io/spacelama/github.com/doudidas/smartsearch-go:master
           imagePullPolicy: Always
-          name: smartsearch-api
-          livenessProbe:
-            httpGet:
-              path: /ping
-              port: 9000
-            initialDelaySeconds: 90
-            timeoutSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /ping
-              port: 9000
-            initialDelaySeconds: 30
-            timeoutSeconds: 10
+          name: smarsearch-api
           env:
             - name:  MONGO_HOSTNAME
-              value: smartsearch-db.smartsearch.svc.cluster.local
+              value: smartsearch-db.smartsearch

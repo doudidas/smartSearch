@@ -32,21 +32,9 @@ spec:
         tier: frontend
     spec:
       containers:
-        - image: spacelama/web:latest
+        - image: gcr.io/spacelama/github.com/doudidas/smartsearchweb:master
           imagePullPolicy: Always
           name: smartsearch-web
-          livenessProbe:
-            httpGet:
-              path: /app
-              port: 80
-            initialDelaySeconds: 90
-            timeoutSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /app
-              port: 80
-            initialDelaySeconds: 30
-            timeoutSeconds: 10
       restartPolicy: Always
 status: {}
 ---

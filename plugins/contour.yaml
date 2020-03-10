@@ -520,4 +520,3 @@ spec:
  selector:
    app: contour
  type: LoadBalancer
----

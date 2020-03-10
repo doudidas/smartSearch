@@ -22,7 +22,7 @@ spec:
     app: smartSearch
     stage: development
     tier: backend
-  type: ClusterIP
+  type: NodePort
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -53,9 +53,9 @@ spec:
         tier: backend
     spec:
       containers:
-        - image: spacelama/api-go:dev
+        - image: gcr.io/spacelama/github.com/doudidas/smartsearch-go:dev
           imagePullPolicy: Always
           name: smarsearch-api
           env:
             - name:  MONGO_HOSTNAME
-              value: dev-smartsearch-db.smartsearch.svc.cluster.local
+              value: dev-smartsearch-db.smartsearch

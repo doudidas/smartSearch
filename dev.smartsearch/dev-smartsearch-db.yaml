@@ -14,10 +14,8 @@ metadata:
     tier: database
 spec:
   ports:
-    - name: mongo
+    - name: mongodb
       port: 27017
-      protocol: TCP
-      targetPort: 27017
   selector:
     app: smartSearch
     stage: development
@@ -46,25 +44,12 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
         - name: mongo
-          image: mongo:3
-          command:
-            - mongod
-            - "--replSet"
-            - rs0
-            - "--bind_ip"
-            - 0.0.0.0
-            - "--smallfiles"
-            - "--noprealloc"
+          image: mongo:4
           ports:
             - containerPort: 27017
           volumeMounts:
             - name: mongo-persistent-storage-dev
               mountPath: /data/db
-        - name: mongo-sidecar
-          image: cvallance/mongo-k8s-sidecar
-          env:
-            - name: MONGO_SIDECAR_POD_LABELS
-              value: "app=smartSearch,stage=development,tier=database"
   volumeClaimTemplates:
   - metadata:
       name: mongo-persistent-storage-dev
