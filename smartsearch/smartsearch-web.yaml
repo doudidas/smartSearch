@@ -31,6 +31,16 @@ spec:
         stage: production
         tier: frontend
     spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: stage
+                operator: In
+                values:
+                - production
+            topologyKey: "kubernetes.io/hostname"
       containers:
         - image: gcr.io/spacelama/github.com/doudidas/smartsearchweb:master
           imagePullPolicy: Always
@@ -56,5 +66,5 @@ spec:
     app: smartSearch
     stage: production
     tier: frontend
-  type: NodePort
+  type: LoadBalancer
   sessionAffinity: ClientIP

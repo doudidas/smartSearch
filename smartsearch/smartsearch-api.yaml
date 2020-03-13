@@ -22,7 +22,7 @@ spec:
     app: smartSearch
     stage: production
     tier: backend
-  type: NodePort
+  type: LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -52,6 +52,16 @@ spec:
         stage: production
         tier: backend
     spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: stage
+                operator: In
+                values:
+                - production
+            topologyKey: "kubernetes.io/hostname"
       containers:
         - image: gcr.io/spacelama/github.com/doudidas/smartsearch-go:master
           imagePullPolicy: Always
