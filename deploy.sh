@@ -17,7 +17,6 @@ echo current version : $majVersion.$minVersion
 if [[ -z "$response" ]]; then
     echo [Git: 1/3] major or minor update ? [major/minor, default: minor]
     read response
-else
     if [[ "$response" == "major" ]]; then
         majVersion=$((majVersion + 1))
         minVersion=0
