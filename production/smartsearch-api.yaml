@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: smartsearch
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: smartsearch
+  name: smartsearch-api
+  labels:
+    app: smartSearch
+    stage: production
+    tier: backend
+spec:
+  ports:
+    - name: gin-gonic
+      port: 9000
+      protocol: TCP
+      targetPort: 9000
+  selector:
+    app: smartSearch
+    stage: production
+    tier: backend
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: smartsearch
+  labels:
+    app: smartSearch
+    stage: production
+    tier: backend
+  name: smartsearch-api
+spec:
+  replicas: 5
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: smartSearch
+      stage: production
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: smartSearch
+        stage: production
+        tier: backend
+    spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: stage
+                operator: In
+                values:
+                - production
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+        - image: gcr.io/spacelama/github.com/doudidas/smartsearch-go:master
+          imagePullPolicy: Always
+          name: smarsearch-api
+          env:
+            - name:  MONGO_HOSTNAME
+              value: smartsearch-db.smartsearch

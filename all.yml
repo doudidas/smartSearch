@@ -1,0 +1,526 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    author: Edouard Topin
+  labels:
+    app: smartsearch
+  name: smartsearch
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    author: Edouard Topin
+  labels:
+    app: smartsearch
+    env: development
+    tier: middleware
+  name: dev-smartsearch-api-service
+  namespace: smartsearch
+spec:
+  ports:
+  - name: gin-gonic
+    port: 9000
+    protocol: TCP
+    targetPort: 9000
+  selector:
+    app: smartsearch
+    env: development
+    tier: middleware
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    author: Edouard Topin
+  labels:
+    app: smartsearch
+    env: development
+    tier: backend
+  name: dev-smartsearch-db-service
+  namespace: smartsearch
+spec:
+  ports:
+  - name: mongodb
+    port: 27017
+  selector:
+    app: smartsearch
+    env: development
+    tier: backend
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    author: Edouard Topin
+  labels:
+    app: smartsearch
+    env: development
+    tier: frontend
+  name: dev-smartsearch-web-service
+  namespace: smartsearch
+spec:
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  selector:
+    app: smartsearch
+    env: development
+    tier: frontend
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    author: Edouard Topin
+  labels:
+    app: smartsearch
+    env: production
+    tier: middleware
+  name: smartsearch-api-service
+  namespace: smartsearch
+spec:
+  ports:
+  - name: gin-gonic
+    port: 9000
+    protocol: TCP
+    targetPort: 9000
+  selector:
+    app: smartsearch
+    env: production
+    tier: middleware
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    author: Edouard Topin
+  labels:
+    app: smartsearch
+    env: production
+    tier: backend
+  name: smartsearch-db-service
+  namespace: smartsearch
+spec:
+  ports:
+  - name: mongodb
+    port: 27017
+  selector:
+    app: smartsearch
+    env: production
+    tier: backend
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    author: Edouard Topin
+  labels:
+    app: smartsearch
+    env: production
+    tier: frontend
+  name: smartsearch-web-service
+  namespace: smartsearch
+spec:
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  selector:
+    app: smartsearch
+    env: production
+    tier: frontend
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    author: Edouard Topin
+  labels:
+    app: smartsearch
+    env: development
+    tier: middleware
+  name: dev-smartsearch-api-deployment
+  namespace: smartsearch
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: smartsearch
+      env: development
+      tier: middleware
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 50%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        author: Edouard Topin
+      labels:
+        app: smartsearch
+        env: development
+        tier: middleware
+    spec:
+      containers:
+      - env:
+        - name: MONGO_HOSTNAME
+          value: dev-smartsearch-db-service
+        image: gcr.io/spacelama/github.com/doudidas/smartsearch-go:dev
+        imagePullPolicy: Always
+        name: golang
+        resources:
+          limits:
+            cpu: 50m
+            memory: 10Mi
+          requests:
+            cpu: 5m
+            memory: 1Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    author: Edouard Topin
+  labels:
+    app: smartsearch
+    env: development
+    tier: frontend
+  name: dev-smartsearch-web-deployment
+  namespace: smartsearch
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: smartsearch
+      env: development
+      tier: frontend
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 50%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        author: Edouard Topin
+      labels:
+        app: smartsearch
+        env: development
+        tier: frontend
+    spec:
+      containers:
+      - image: gcr.io/spacelama/github.com/doudidas/smartsearchweb:dev
+        imagePullPolicy: Always
+        name: nginx-angular
+        resources:
+          limits:
+            cpu: 50m
+            memory: 10Mi
+          requests:
+            cpu: 5m
+            memory: 1Mi
+      restartPolicy: Always
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    author: Edouard Topin
+  labels:
+    app: smartsearch
+    env: production
+    tier: middleware
+  name: smartsearch-api-deployment
+  namespace: smartsearch
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: smartsearch
+      env: production
+      tier: middleware
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 50%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        author: Edouard Topin
+      labels:
+        app: smartsearch
+        env: production
+        tier: middleware
+    spec:
+      containers:
+      - env:
+        - name: MONGO_HOSTNAME
+          value: dev-smartsearch-db-service
+        image: gcr.io/spacelama/github.com/doudidas/smartsearch-go:master
+        imagePullPolicy: Always
+        name: golang
+        resources:
+          limits:
+            cpu: 50m
+            memory: 10Mi
+          requests:
+            cpu: 5m
+            memory: 1Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    author: Edouard Topin
+  labels:
+    app: smartsearch
+    env: production
+    tier: frontend
+  name: smartsearch-web-deployment
+  namespace: smartsearch
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: smartsearch
+      env: production
+      tier: frontend
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 50%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        author: Edouard Topin
+      labels:
+        app: smartsearch
+        env: production
+        tier: frontend
+    spec:
+      containers:
+      - image: gcr.io/spacelama/github.com/doudidas/smartsearchweb:master
+        imagePullPolicy: Always
+        name: nginx-angular
+        resources:
+          limits:
+            cpu: 50m
+            memory: 10Mi
+          requests:
+            cpu: 5m
+            memory: 1Mi
+      restartPolicy: Always
+status: {}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  annotations:
+    author: Edouard Topin
+  labels:
+    app: smartsearch
+    env: development
+    tier: backend
+  name: dev-smartsearch-db-statefulset
+  namespace: smartsearch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smartsearch
+      env: development
+      tier: backend
+  serviceName: dev-smartsearch-db-service
+  template:
+    metadata:
+      annotations:
+        author: Edouard Topin
+      labels:
+        app: smartsearch
+        env: development
+        tier: backend
+    spec:
+      containers:
+      - image: mongo:4
+        name: mongo
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - mountPath: /data/db
+          name: mongodb
+      terminationGracePeriodSeconds: 10
+  volumeClaimTemplates:
+  - metadata:
+      labels:
+        app: smartsearch
+        env: development
+        tier: backend
+      name: mongodb
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+      volumeMode: Filesystem
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  annotations:
+    author: Edouard Topin
+  labels:
+    app: smartsearch
+    env: production
+    tier: backend
+  name: smartsearch-db-statefulset
+  namespace: smartsearch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smartsearch
+      env: production
+      tier: backend
+  serviceName: smartsearch-db-service
+  template:
+    metadata:
+      annotations:
+        author: Edouard Topin
+      labels:
+        app: smartsearch
+        env: production
+        tier: backend
+    spec:
+      containers:
+      - image: mongo:4
+        name: mongo
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - mountPath: /data/db
+          name: mongodb
+      terminationGracePeriodSeconds: 10
+  volumeClaimTemplates:
+  - metadata:
+      labels:
+        app: smartsearch
+        env: production
+        tier: backend
+      name: mongodb
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+      volumeMode: Filesystem
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    author: Edouard Topin
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /api/
+  labels:
+    app: smartsearch
+    env: development
+    tier: middleware
+  name: dev-smartsearch-api-ingress
+  namespace: smartsearch
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: dev-smartsearch-api-service
+          servicePort: 9000
+        path: /api/
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    author: Edouard Topin
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+  labels:
+    app: smartsearch
+    env: development
+    tier: frontend
+  name: dev-smartsearch-web-ingress
+  namespace: smartsearch
+spec:
+  backend:
+    serviceName: dev-smartsearch-web-service
+    servicePort: 80
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: dev-smartsearch-web-service
+          servicePort: 80
+        path: /
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    author: Edouard Topin
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /api/
+  labels:
+    app: smartsearch
+    env: production
+    tier: middleware
+  name: smartsearch-api-ingress
+  namespace: smartsearch
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: smartsearch-api-service
+          servicePort: 9000
+        path: /api/
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    author: Edouard Topin
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+  labels:
+    app: smartsearch
+    env: production
+    tier: frontend
+  name: smartsearch-web-ingress
+  namespace: smartsearch
+spec:
+  backend:
+    serviceName: smartsearch-web-service
+    servicePort: 80
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: smartsearch-web-service
+          servicePort: 80
+        path: /

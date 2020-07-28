@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  selector:
+    {}
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 50%
+    type: RollingUpdate
+  template:
+    spec:
+      containers:
+        - name:  golang
+          image: gcr.io/spacelama/github.com/doudidas/smartsearch-go
+          imagePullPolicy: Always
+          env:
+            - name:  MONGO_HOSTNAME
+              value: dev-smartsearch-db-service
+          resources:
+            requests:
+              memory: "1Mi"
+              cpu: "5m"
+            limits:
+              memory: "10Mi"
+              cpu: "50m"
+    

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  replicas: 5
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 50%
+    type: RollingUpdate
+  selector:
+    matchLabels: {}
+  template:
+    spec:
+      containers:
+        - image: gcr.io/spacelama/github.com/doudidas/smartsearchweb
+          imagePullPolicy: Always
+          name: nginx-angular
+          resources:
+            requests:
+              memory: "1Mi"
+              cpu: "5m"
+            limits:
+              memory: "10Mi"
+              cpu: "50m"
+      restartPolicy: Always
+status: {}

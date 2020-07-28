@@ -1,0 +1,93 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: smartsearch
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: smartsearch
+  name: dev-smartsearch-ingress-web
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+  labels:
+    stage: development
+    app: smartSearch
+spec:
+  backend:
+    serviceName: dev-smartsearch-web
+    servicePort: 80
+  rules:
+  - host: dev-smartsearch.ddns.net
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: dev-smartsearch-web
+          servicePort: 80
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: smartsearch
+  name: dev-smartsearch-ingress-api
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /api/
+  labels:
+    stage: development
+    app: smartSearch
+spec:
+  rules:
+  - host: dev-smartsearch.ddns.net
+    http:
+      paths:
+      - path: /api/
+        backend:
+          serviceName: dev-smartsearch-api
+          servicePort: 9000
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: smartsearch
+  name: smartsearch-ingress-api
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /api/
+  labels:
+    stage: production
+    app: smartSearch
+spec:
+  rules:
+  - host: smartsearch.ddns.net
+    http:
+      paths:
+      - path: /api/
+        backend:
+          serviceName: smartsearch-api
+          servicePort: 9000
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: smartsearch
+  name: smartsearch-ingress-web
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+  labels:
+    stage: production
+    app: smartSearch
+spec:
+  backend:
+    serviceName: smartsearch-web
+    servicePort: 80
+  rules:
+  - host: smartsearch.ddns.net
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: smartsearch-web
+          servicePort: 80

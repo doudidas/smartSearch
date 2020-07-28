@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: smartsearch
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: smartsearch
+  labels:
+    app: smartSearch
+    stage: production
+    tier: frontend
+  name: smartsearch-web
+spec:
+  replicas: 3
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: smartSearch
+      stage: production
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: smartSearch
+        stage: production
+        tier: frontend
+    spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: stage
+                operator: In
+                values:
+                - production
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+        - image: gcr.io/spacelama/github.com/doudidas/smartsearchweb:master
+          imagePullPolicy: Always
+          name: smartsearch-web
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: smartsearch
+  name: smartsearch-web
+  labels:
+    app: smartSearch
+    stage: production
+    tier: frontend
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app: smartSearch
+    stage: production
+    tier: frontend
+  type: LoadBalancer
+  sessionAffinity: ClientIP

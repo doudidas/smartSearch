@@ -1,0 +1,9 @@
+# kind: Deployment
+# metadata:
+#     name: dev-smartsearch-web-deployment
+# spec:
+#   # ...
+#   # could be defaulted or set by Resource Config
+#   replicas: 1
+# status:
+#   # ..
